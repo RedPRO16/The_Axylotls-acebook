@@ -37,4 +37,38 @@ describe("Profile page", () => {
     cy.get("a").contains("Back to posts").click()
     cy.url().should("include", "/posts");
   })
+
+  it.only("Lists posts only by the user",()=>{
+     // sign up
+     cy.visit("/users/new");
+     cy.get("#email").type("someone@example.com");
+     cy.get("#password").type("password");
+     cy.get("#firstName").type("someone");
+     cy.get("#submit").click();
+
+     // makes post from 1st user
+    cy.get("#message").type("Hello, world!");
+    cy.get("#submit").click();
+
+    
+    cy.visit("/profile");
+    cy.contains("li", "Hello, world!");
+
+    // logout
+    cy.get("#logout").click();
+
+    // sign up new user
+    cy.visit("/users/new");
+    cy.get("#email").type("someoneNEW@example.com");
+    cy.get("#password").type("NEWpassword");
+    cy.get("#firstName").type("NEWsomeone");
+    cy.get("#submit").click();
+
+    cy.get("#message").type("This is the message that should show");
+    cy.get("#submit").click();
+
+    cy.visit("/profile");
+    cy.contains("li", "This is the message that should show");
+    cy.get("li").should('not.contain', 'Hello, world!');
+  })
 });

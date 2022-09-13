@@ -16,4 +16,11 @@
 <div>Password: {{password}}</div>
 <a id="edit-page" href="/profile/edit">Edit your details</a></div>
 <br>
+
+<ul class="posts">
+  {{#each posts}}
+  <li>{{this.message}}</li>
+  {{/each}}
+</ul>
+
 <a href="/posts">Back to posts</a>

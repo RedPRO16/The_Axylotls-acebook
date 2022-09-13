@@ -1,15 +1,21 @@
 const User = require("../models/user");
+const Post = require("../models/post")
 
 const ProfileController = {
-  Index: (req, res) => {
+  Index: async (req, res) => {
+
+    // let posts = await Post.find({_id: req.session.user['_id']})
+
     res.render("profile/index", {
+      posts: Post.find({_id: req.session.user['_id']}),
       title: "Acebook",
       firstName: req.session.user["firstName"],
       url: req.session.user["profilePic"],
       lastName: req.session.user['lastName'],
       email: req.session.user['email'],
       password: "*".repeat(req.session.user['password'].length)
-    });
+    }
+    )
   },
 
   Edit: (req, res) => {
