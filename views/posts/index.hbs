@@ -1,7 +1,7 @@
 <!-- header starts -->
 <div class="header">
   <div class="header__left">
-   <a href="/posts"> <img src="images/acebook_logo.svg" alt="" /> </a>
+    <a href="/posts"> <img src="images/acebook_logo.svg" alt="" /> </a>
     <div class="header__input">
       <span class="material-icons"> search </span>
       <input type="text" placeholder="Search Acebook" />
@@ -112,7 +112,7 @@
         <h4>The Axylotls</h4>
       </div>
       <!-- story ends -->
-       <!-- story starts -->
+      <!-- story starts -->
       <div style="
               background-image: url('images/img/_stephen.jpg');
             " class="story">
@@ -125,12 +125,12 @@
     <!-- message sender starts -->
     <div class="messageSender">
       <div class="messageSender__top">
-        <img class="user__avatar" src="data:;base64, {{profilePic.data}}" alt=""/>
+        <img class="user__avatar" src="data:;base64, {{profilePic.data}}" alt="" />
 
         {{!-- FORM MODIFIED FOR IMAGE --}}
         <form id="new-post-form" action="/posts" method="post" enctype="multipart/form-data">
           <input type="file" name="image" accept="image/*"><br>
-          <input id="message" type="text" name="message" value="" placeholder=" Whats on your mind?  {{blank}}">
+          <input id="message" type="text" name="message" value="" placeholder=" {{placeholder}}">
           <input id="submit" type="submit" value="POST">
         </form>
       </div>

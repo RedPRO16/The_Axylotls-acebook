@@ -2,16 +2,16 @@ describe("Comments", () => {
   beforeEach(() => {
     cy.task("dropUsers");
     cy.task("dropPosts");
-  });
 
-  it.only("can comment on user's posts", () => {
     // sign up + log in
     cy.visit("/users/new");
     cy.get("#email").type("someone@example.com");
     cy.get("#password").type("password");
     cy.get("#firstName").type("someone");
     cy.get("#submit").click();
+  });
 
+  it.only("can comment on user's posts", () => {
     // submit a post
     cy.visit("/posts");
     cy.get('#message').invoke('attr', 'placeholder').should("contain", " Whats on your mind?")
@@ -36,7 +36,7 @@ describe("Comments", () => {
     cy.get(".comment").type("Goodbye!");
     cy.get(".submit-comment").click();
     cy.get(".comment__bottom").should("contain", "Goodbye! - newperson newsurname");
-    
+
   });
 
   // it("Unable to submit a blank comment", () => {
