@@ -31,7 +31,7 @@ const PostsController = {
   },
 
   Create: async (req, res) => {
-    let message = req.body.message;
+    const message = req.body.message;
     // sharp supported mimetypes
     const sharpTypes = [
       "image/jpeg",
