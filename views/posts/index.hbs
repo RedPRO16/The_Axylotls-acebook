@@ -161,7 +161,7 @@
       </div>
 
       <div class="post__image">
-        {{!-- <img src={{}} alt="" /> --}}
+        <img data-test="image" src="data:;base64, {{this.img.data}}" onerror="this.style.display='none'">
       </div>
 
       <div class="post__options">
