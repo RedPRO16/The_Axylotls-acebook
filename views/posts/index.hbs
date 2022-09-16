@@ -129,7 +129,7 @@
 
         {{!-- FORM MODIFIED FOR IMAGE --}}
         <form id="new-post-form" action="/posts" method="post" enctype="multipart/form-data">
-          <input type="file" name="image" accept="image/*"><br>
+          <input type="file" name="image" accept="image/*" ><br>
           <input id="message" type="text" name="message" value="" placeholder=" Whats on your mind?  {{blank}}">
           <input id="submit" type="submit" value="POST">
         </form>
@@ -155,7 +155,7 @@
       </div>
 
       <div class="post__image">
-        <img data-test="image" src="data:;base64, {{this.img.data}}" alt="">
+        <img data-test="image" src="data:;base64, {{this.img.data}}"  onerror="this.style.display='none'">
       </div>
 
       <div class="post__options">
