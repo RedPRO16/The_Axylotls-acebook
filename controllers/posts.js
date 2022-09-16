@@ -112,7 +112,7 @@ function renderPosts(req, res, message) {
         }
 
         if (post.likes.includes(req.session.user._id) == true) {
-          post._doc.color = "#1877f2"
+          post._doc.color = "#F47983"
         } else {
           post._doc.color = "gray"
         }
