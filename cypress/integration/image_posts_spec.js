@@ -46,6 +46,15 @@ describe("Timeline", () => {
     cy.get("#message").type("I have a pdf for you!");
     cy.get("input[type=file]").selectFile('cypress/fixtures/git-cheat-sheet-education.pdf')
     cy.get("#submit").click()
-    cy.get('#message').invoke('attr', 'placeholder').should("contain", " Whats on your mind?  Invalid image file")
+    cy.get('#message').invoke('attr', 'placeholder').should("contain", " Invalid image file")
+  })
+
+  it("submits an image only post", () => {
+    // upload test image
+    cy.get("input[type=file]").selectFile('cypress/fixtures/tulips.jpeg')
+    cy.get("#submit").click();
+
+    // check web image size matches test image size
+    cy.get("[data-test=image]").isFixtureImage("tulips.jpeg")
   })
 });

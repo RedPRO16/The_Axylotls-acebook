@@ -27,7 +27,7 @@ const PostsController = {
   },
 
   Index: (req, res) => {
-    renderPosts(req, res, "");
+    renderPosts(req, res, "Whats on your mind?")
   },
 
   Create: async (req, res) => {
@@ -43,11 +43,13 @@ const PostsController = {
       "image/svg",
     ];
 
-    if (message == "") {
-      renderPosts(req, res, "Please enter a message");
-    } else if (req.file && !sharpTypes.includes(req.file.mimetype)) {
-      renderPosts(req, res, "Invalid image file");
-    } else {
+    if (message == "" && !req.file) {
+      renderPosts(req, res, "Please enter a message or add an image")
+    }
+    else if (req.file && !sharpTypes.includes(req.file.mimetype)) {
+      renderPosts(req, res, "Invalid image file")
+    }
+    else {
       const obj = {
         message: message,
         user: req.session.user._id,
@@ -119,7 +121,7 @@ function renderPosts(req, res, message) {
         }
 
         if (post.likes.includes(req.session.user._id) == true) {
-          post._doc.color = "#1877f2";
+          post._doc.color = "#F47983"
         } else {
           post._doc.color = "gray";
         }
@@ -136,7 +138,7 @@ function renderPosts(req, res, message) {
         res.render("posts/index", {
           posts: posts.reverse(),
           title: "Acebook",
-          blank: message,
+          placeholder: message,
           profilePic: user.profilePic,
           firstName: user.firstName,
           userID: user._id,
