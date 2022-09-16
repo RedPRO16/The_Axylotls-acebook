@@ -2,10 +2,10 @@
 <div class="header">
   <div class="header__left">
     <img src="/images/acebook_logo.svg" alt="" />
-    <div class="header__input">
+    {{!-- <div class="header__input">
       <span class="material-icons"> search </span>
       <input type="text" placeholder="Search Acebook" />
-    </div>
+    </div> --}}
   </div>
 
   <div class="header__middle">
@@ -15,7 +15,7 @@
   </div>
   <div class="header__right">
     <div class="header__info">
-      <img class="user__avatar" src="/images/img/Makers.png" alt="" />
+      <img class="user__avatar" src="data:;base64, {{profilePic.data}}" alt="" />
       <h4><a href="/profile">Welcome {{firstName}}</a></h4>
     </div>
 

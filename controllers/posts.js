@@ -90,6 +90,12 @@ const PostsController = {
 
 function convertPosts(req, posts) {
   posts.forEach((post) => {
+    if (post.likes.includes(req.session.user._id) == true) {
+      post._doc.color = "#F47983"
+    } else {
+      post._doc.color = "gray";
+    }
+
     if (post.user.profilePic.data) {
       // do this because you can't mutate back to the populated user
       post._doc.userImg = post.user.profilePic.data.toString("base64");
@@ -99,12 +105,6 @@ function convertPosts(req, posts) {
       // from https://dpwdec.github.io/2020/06/17/store-images-in-mongodb
       post.img.data = post.img.data.toString("base64");
       return post.img.data.toObject();
-    }
-
-    if (post.likes.includes(req.session.user._id) == true) {
-      post._doc.color = "#F47983"
-    } else {
-      post._doc.color = "gray";
     }
   });
 }
