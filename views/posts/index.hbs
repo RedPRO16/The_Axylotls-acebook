@@ -144,7 +144,7 @@
     {{#each posts}}
     <div class="post">
       <div class="post__top">
-        <img class="user__avatar post__avatar" src="data:;base64,{{this.user.profilePic.data}}" alt="" />
+        <img class="user__avatar post__avatar" src="data:;base64, {{this._doc.userImg}}" alt="" />
         <div class="post__topInfo">
           <a id="post_name" href="/profile">
             <h3>{{this.user.firstName}}</h3>
