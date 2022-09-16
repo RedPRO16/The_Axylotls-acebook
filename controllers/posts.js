@@ -31,7 +31,7 @@ const PostsController = {
   },
 
   Create: async (req, res) => {
-    const message = req.body.message;
+    let message = req.body.message;
     // sharp supported mimetypes
     const sharpTypes = [
       "image/jpeg",
@@ -87,12 +87,24 @@ const PostsController = {
   },
 };
 
-// from https://dpwdec.github.io/2020/06/17/store-images-in-mongodb
-function convertImage(posts) {
+
+function convertPosts(req, posts) {
   posts.forEach((post) => {
+    if (post.user.profilePic.data) {
+      // do this because you can't mutate back to the populated user
+      post._doc.userImg = post.user.profilePic.data.toString("base64");
+    }
+
     if (post.img.data) {
+      // from https://dpwdec.github.io/2020/06/17/store-images-in-mongodb
       post.img.data = post.img.data.toString("base64");
-      return post.toObject();
+      return post.img.data.toObject();
+    }
+
+    if (post.likes.includes(req.session.user._id) == true) {
+      post._doc.color = "#F47983"
+    } else {
+      post._doc.color = "gray";
     }
   });
 }
@@ -113,37 +125,24 @@ function renderPosts(req, res, message) {
         throw err;
       }
 
-      posts.forEach((post) => {
-        if (post.user.profilePic.data) {
-          // this image doesn't make it onto the page
-          post.user.profilePic.data =
-            post.user.profilePic.data.toString("base64");
-        }
+      // convert image data and like button colour per post
+      convertPosts(req, posts);
 
-        if (post.likes.includes(req.session.user._id) == true) {
-          post._doc.color = "#F47983"
-        } else {
-          post._doc.color = "gray";
-        }
-      });
+      User.findOne({ _id: req.session.user._id })
+        .then((user) => {
+          if (user.profilePic.data) {
+            user.profilePic.data = user.profilePic.data.toString("base64");
+          }
 
-      // convert image data into base64
-      convertImage(posts);
-
-      User.findOne({ _id: req.session.user._id }).then((user) => {
-        if (user.profilePic.data) {
-          user.profilePic.data = user.profilePic.data.toString("base64");
-        }
-
-        res.render("posts/index", {
-          posts: posts.reverse(),
-          title: "Acebook",
-          placeholder: message,
-          profilePic: user.profilePic,
-          firstName: user.firstName,
-          userID: user._id,
+          res.render("posts/index", {
+            posts: posts.reverse(),
+            title: "Acebook",
+            placeholder: message,
+            profilePic: user.profilePic,
+            firstName: user.firstName,
+            userID: user._id,
+          });
         });
-      });
     });
 }
 
