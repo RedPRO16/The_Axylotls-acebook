@@ -21,7 +21,7 @@
 
     </div>
     <span class="material-icons">
-      <form action='/sessions?_method=DELETE' method='POST'>
+      <form action="/sessions?_method=DELETE" method="POST">
         <button id="logout" type="submit"><span class="material-icons">logout</span></button>
       </form>
     </span>
@@ -127,11 +127,11 @@
       <div class="messageSender__top">
         <img class="user__avatar" src="data:;base64, {{profilePic.data}}" alt="" />
 
-        {{!-- FORM MODIFIED FOR IMAGE --}}
+        {{! FORM MODIFIED FOR IMAGE }}
         <form id="new-post-form" action="/posts" method="post" enctype="multipart/form-data">
-          <input type="file" name="image" accept="image/*"><br>
-          <input id="message" type="text" name="message" value="" placeholder=" {{placeholder}}">
-          <input id="submit" type="submit" value="POST">
+          <input type="file" name="image" accept="image/*" /><br />
+          <input id="message" type="text" name="message" value="" placeholder=" Whats on your mind?  {{blank}}" />
+          <input id="submit" type="submit" value="POST" />
         </form>
       </div>
     </div>
@@ -145,7 +145,8 @@
         <div class="post__topInfo">
           <a id="post_name" href="/profile">
             <h3>{{this.user.firstName}}</h3>
-          </a> <!-- Need to link post to user firstname  -->
+          </a>
+          <!-- Need to link post to user firstname  -->
           <p>{{this.createdAt}}</p>
         </div>
       </div>
@@ -153,9 +154,12 @@
       <div class="post__bottom">
         <p>{{this.message}}</p>
       </div>
+      <div class="post__image">
+        <img data-test="image" src="data:;base64, {{this.img.data}}" alt="" />
+      </div>
 
       <div class="post__image">
-        <img data-test="image" src="data:;base64, {{this.img.data}}" alt="">
+        {{!-- <img src={{}} alt="" /> --}}
       </div>
 
       <div class="post__options">
@@ -167,25 +171,42 @@
           </button>
         </div>
 
-        <div class="post__option">
-          <span class="material-icons"> chat_bubble_outline </span>
-          <p>Comment</p>
+        {{! Comments section starts here }}
+
+        <div class="messageSender">
+          <div class="messageSender__top">
+            <img class="user__avatar" src="images/img/Makers.png" alt="" />
+
+            <form id="new-comment-form" action="/comments" method="post">
+              {{! <label for="message">Whats on your mind? </label> }}
+              <input type="hidden" id="postID" name="postID" value={{this._id}} />
+              <input class="comment" type="text" name="comment" value="" placeholder=" Leave a comment." />
+              <input class="submit_comment" id="submit" type="submit" value="COMMENT" />
+
+            </form>
+
+            <button class="hide_show" type="submit"><span class="material-icons">
+                comment
+              </span></button>
+
+          </div>
         </div>
-
-        {{#each this.comments}}
-        <div class="comment__bottom">{{this.comment}} - {{this.postedBy.firstName}} {{this.postedBy.lastName}}</div>
-        <p>{{this.date}}</p>
-        {{/each}}
-
-        <form class="new-comment-form" action="/comments" method="post">
-          <input type="hidden" id="postID" name="postID" value={{this._id}}>
-          <input class="comment" type="text" name="comment" value="" placeholder="Comment here">
-          <input class="submit-comment" type="submit" value="COMMENT">
-        </form>
       </div>
-    </div>
-    {{/each}}
 
+      {{#each this.comments}}
+      <div class="messageSender__top_comment" id="messageSender__top_comment">
+        <div class="comment__bottom">
+          <h4>{{this.postedBy.firstName}} {{this.postedBy.lastName}}</h4>
+          <p>{{this.date}}</p>
+        </div>
+        <p class="new_comment">{{this.comment}}</p>
+      </div>
+      {{/each}}
+    </div>
+
+    {{! Comments section ends here }}
+
+    {{/each}}
 
     <!-- post ends -->
   </div>

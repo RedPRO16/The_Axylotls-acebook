@@ -33,7 +33,15 @@ const PostsController = {
   Create: async (req, res) => {
     const message = req.body.message;
     // sharp supported mimetypes
-    const sharpTypes = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif", "image/tiff", "image/svg"]
+    const sharpTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/gif",
+      "image/avif",
+      "image/tiff",
+      "image/svg",
+    ];
 
     if (message == "" && !req.file) {
       renderPosts(req, res, "Please enter a message or add an image")
@@ -96,9 +104,9 @@ function renderPosts(req, res, message) {
       {
         path: "comments",
         populate: {
-          path: "postedBy"
-        }
-      }
+          path: "postedBy",
+        },
+      },
     ])
     .exec((err, posts) => {
       if (err) {
@@ -107,6 +115,7 @@ function renderPosts(req, res, message) {
 
       posts.forEach((post) => {
         if (post.user.profilePic.data) {
+          // this image doesn't make it onto the page
           post.user.profilePic.data =
             post.user.profilePic.data.toString("base64");
         }
@@ -114,12 +123,12 @@ function renderPosts(req, res, message) {
         if (post.likes.includes(req.session.user._id) == true) {
           post._doc.color = "#F47983"
         } else {
-          post._doc.color = "gray"
+          post._doc.color = "gray";
         }
-      })
+      });
 
       // convert image data into base64
-      convertImage(posts)
+      convertImage(posts);
 
       User.findOne({ _id: req.session.user._id }).then((user) => {
         if (user.profilePic.data) {
@@ -132,7 +141,7 @@ function renderPosts(req, res, message) {
           placeholder: message,
           profilePic: user.profilePic,
           firstName: user.firstName,
-          userID: user._id
+          userID: user._id,
         });
       });
     });
